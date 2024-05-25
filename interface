@@ -1,0 +1,914 @@
+# Ahmed ALyafai     Amiraj Singh
+# TPnumber074799    TPnumber074793
+import datetime
+def initializing_files():
+        name, ID, Password,user_type="Ahmed".lower(), "074799", "7755", "Admin".lower()
+        with open("user.txt","w")as file:
+            file.write(f"{name} |{user_type} |{ID} |{Password} |{datetime.datetime.today()}\n")   
+        with open("supplier.txt", "w") as file:
+            file.write("")
+        with open("hospital.txt", "w")as file:
+            file.write("")   
+#initial_users()
+def adding_user():
+    while True:
+        user_name,ID,user_type= input("please enter user name?\n"),input("please enter user TP number?\n"),input("please enter the user type?\n")
+        user_password = input("please enter your password?\n")
+        with open("user.txt", "a") as file:
+            file.write(f"{user_name} |{user_type} |{ID} |{user_password} |{datetime.datetime.today()}\n")
+            print("User added successfully")
+            file.close()
+        cond = input("Do you want to add more users(y/n)")
+        while cond not in ["y","n"]:
+            input("invalid button please try again ")
+            break
+        if cond == "n":
+              break
+#adding_user()
+#only the admin have the ability to delete users when its needed
+def removing_users():
+    with open("user.txt", "r") as file:
+      for rec in file: 
+        print(rec)
+      file.close()
+    found = False
+    user_list = []     
+    user = input("enter the name of the user that you want to remove?\n").lower()
+    if user == "ahmed":
+        print("you can not delete the main user")
+        return
+    with open("user.txt", "r") as file:
+        for lines in file:
+         line=lines.strip().split(" |")
+         user_list.append(line)    
+        for users in user_list:
+             user_to_remove=users[0:]
+             if user == users[0]:
+                 print(users[0:])
+                 status=input("Are you sure you want to delete this user(y/n) ")
+                 if status=="y".lower():
+                    user_list.remove(user_to_remove) 
+                    found = True 
+                 elif status=="n".lower():
+                    return
+                   
+        if found:
+          with open("user.txt", "w") as file:
+           for user_n in user_list:
+            file.write(" |".join(user_n)+"\n")
+           print("User removed successfully")
+        if not found:
+            print("User not found")
+
+#removing_users()
+
+def Modifying_users():
+    with open("user.txt", "r") as file:
+      for rec in file: 
+        print(rec)
+      file.close()
+    found = False
+    user_list = []
+    old_user = input("enter the name of the user that you want to replace:\n")
+    with open("user.txt", "r") as file:
+        for lines in file:
+            line = lines.strip().split(" |")
+            user_list.append(line)
+        for users in (user_list):
+            if old_user == users[0]: 
+             print(users[0:])   
+             m_user=input("Are you sure you want to replace this user(y/n) ")
+             if m_user.lower()=="n":
+              return
+             else: 
+                found = True 
+                new_name,new_Id,new_pass = input("enter the name of new user:\n"),input("enter the new Id:\n"),input("enter the new password:\n")
+                new_type=input("insert the type of the new user (admin/stuff):\n")
+                user_to_remove=users[0:]
+                user_list.remove(user_to_remove)
+                u_list=[]
+                u_list.append(f"{new_name} |{new_type} |{new_Id} |{new_pass} |{datetime.datetime.today()}")
+                user_list.append(u_list)
+                print("User replaced successfully")
+                break
+        with open("user.txt", "w") as file:
+           for user_n in user_list:
+            file.write(" |".join(user_n)+"\n")
+        if not found:
+         print("user not found")
+#Modifying_users()
+def searching_users():
+    # Create an empty list to store user records
+    user_list = []
+    #Initialize a variable to track whether the user was found
+    found = False
+    user_to_search = input("enter the name of the user that you want to search for:\n")
+    with open("user.txt", "r") as file:
+        for lines in file:
+           line = lines.strip().split(" |")
+           user_list.append(line)
+        for users in user_list:
+             if user_to_search == users[0]:
+                found = True
+                print("user found")
+                print(f"NAME:{users[0]}")
+                print(f"TYPE:{users[1]}")
+                print(f"ID:{users[2]}")
+                print(f"PASSWORD:{users[3]}")
+                return
+        if not found:
+            print("User not found")
+#searching_users()
+
+
+#initial_suppliers()
+
+def add_suppliers():
+    for _ in range(3):
+        supplier_exists = False
+        print("Note that you can only add 3 suppliers")
+        code_s = input("Kindly enter the code of the supplier that you want to add:\n")
+        with open("supplier.txt", "r") as file:
+            # Check IF the entered code already exists
+            for lines in file:
+                line = lines.strip().split(" |")
+                if code_s == line[0]:
+                    print("My friend the code of the supplier you have entered is already exists")
+                    supplier_exists = True
+                    break
+        if not supplier_exists:
+            company_s,name_s = input("kindly enter the company name for the supplier\n"),input("please enter the name of the supplier:\n")
+            with open("supplier.txt", "a") as file:
+                 # Write the supplier information to the file along with the current date and time
+                file.write(f"{code_s} |{name_s} |{company_s} |{datetime.datetime.today()}\n")
+        condition = input("Do you want to add more suppliers(y/n):\n")
+        if condition.lower() == "n":
+            break
+#add_suppliers()
+
+def modify_suppliers():
+    with open("supplier.txt", "r") as file:
+      for rec in file: 
+        print(rec)
+      file.close()
+# Initialize a variable to track whether the supplier to modIFy was found
+    found = False
+    # Create an empty list to store supplier records
+    sup_list = []
+    old_sup = input("enter the code of the supplier that you want to replace:\n")
+    with open("supplier.txt", "r") as file:
+        for lines in file:
+            line = lines.strip().split(" |")
+            sup_list.append(line)
+        # Iterate through the sup_list
+        for suppliers in (sup_list):
+            if old_sup == suppliers[0]: 
+             print(suppliers[0:])   
+             m_sup=input("Are you sure you want to replace this supplier(y/n) ")
+             if m_sup.lower()=="n":
+              return
+             else: 
+                found = True
+                # Ask for details of the new supplier 
+                code_s = input("Kindly enter the code of the new supplier :\n") 
+                company_s,name_s = input("kindly enter the company name for the supplier\n"),input("please enter the name of the supplier:\n")
+                sup_to_remove=suppliers[0:]
+                # Remove the supplier to be replaced from sup_list
+                sup_list.remove(sup_to_remove)
+                s_list=[]
+                #Create a new supplier record
+                s_list.append(f"{code_s} |{name_s} |{company_s} |{datetime.datetime.today()}\n")
+                sup_list.append(s_list)
+                print("Supplier replaced successfully")
+                break
+        with open("supplier.txt", "w") as file:
+          #Write the updated supplier records to the file
+           for sup_n in sup_list:
+            file.write(" |".join(sup_n)+"\n")
+        if not found:
+         print("Supplier not found")
+#modify_suppliers()
+
+def remove_suppliers():
+    with open("supplier.txt", "r") as file:
+      for rec in file: 
+        print(rec)
+      file.close()
+    #Initialize a variable to track whether the supplier to remove was found  
+    found = False
+    sup_list = []
+    sup= input("enter the code of the supplier that you want to remove?\n")
+    with open("supplier.txt", "r") as file:
+        for lines in file:
+         line=lines.strip().split(" |")
+         sup_list.append(line)    
+        for suppliers in sup_list:
+             sup_to_remove=suppliers[0:]
+             if sup == suppliers[0]:
+                 print(suppliers[0:])
+                 status=input("Are you sure you want to delete this supplier(y/n) ")
+                 if status=="y".lower():
+                    sup_list.remove(sup_to_remove) 
+                    found = True 
+                 elif status=="n".lower():
+                    return
+        if found:
+          with open("supplier.txt", "w") as file:
+           for sup_n in sup_list:
+            file.write(" |".join(sup_n)+"\n")
+           print("Supplier removed successfully")
+        if not found:
+            print("Supplier not found")
+#remove_suppliers()
+
+def search_suppliers():
+    # Create an empty list to store supplier records
+    sup_list = []
+    # Initialize a variable to track whether the supplier was found
+    found = False
+    sup_to_search = input("enter the code of the supplier that you want to search for:\n")
+    with open("supplier.txt", "r") as file:
+        for lines in file:
+           line = lines.strip().split(" |")
+           sup_list.append(line)
+        # Iterate through the sup_list
+        for suppliers in sup_list:
+             if sup_to_search in suppliers[0]:
+                found = True
+                print("Supplier found")
+                print(f"CODE:{suppliers[0]}")
+                print(f"NAME{suppliers[1]}")
+                print(f"COMPANY{suppliers[2]}")
+                return
+        if not found:
+            print("Supplier not found")
+    
+#search_suppliers()
+
+
+#initial_hospitals()
+
+def add_hospitals():
+    for _ in range(3):
+        hospital_exists = False
+        code_s = input("Kindly enter the code of the hospital that you want to add:\n")
+        with open("hospital.txt", "r") as file:
+            # Check IF the entered code already exists
+            for lines in file:
+                line = lines.strip().split(" |")
+                if code_s == line[0]:
+                    print("My friend the code of the hospital you have entred is already exists")
+                    hospital_exists = True
+                    break
+        # IF the hospital does not exist, ask for additional information
+        if not hospital_exists:
+            owner_s = input("kindly enter the owner name for the hospital\n")
+            name_s = input("please enter the name of the hospital that you want to add:\n")
+            with open("hospital.txt", "a") as file:
+                # Write the hospital information to the file along with the current date and time
+                file.write(f"{code_s} |{name_s} |{owner_s} |{datetime.datetime.today()}\n")
+        condition = input("Do you want to add more hospitals(y/n):\nyou can only add Three hospitals:")
+        if condition.lower() == "n":
+            break
+#add_hospitals()
+
+def modify_hospitals():
+    with open("hospital.txt", "r") as file:
+      for rec in file: 
+        print(rec)
+      file.close()
+    # Initialize a variable to track whether the hospital to modify was found
+    found = False
+    # Create an empty list to store hospital records
+    hos_list = []
+    old_hos = input("enter the code of the hospital that you want to replace:\n")
+    with open("hospital.txt", "r") as file:
+        for lines in file:
+            line = lines.strip().split(" |")
+            hos_list.append(line)
+        # Iterate through the hos_list
+        for hospitals in (hos_list):
+            if old_hos == hospitals[0]: 
+              print(hospitals[0:])   
+              m_hos=input("Are you sure you want to replace this hospital(y/n) ")
+              if m_hos.lower()=="n":
+               return
+              else: 
+                # The user has confirmed the replacement
+                found = True 
+                code_h= input("Kindly enter the code of the new hospital :\n") 
+                owner_h,name_h = input("kindly enter the owner name for the hospital\n"),input("please enter the name of the hospital:\n")
+                hos_to_remove=hospitals[0:]
+                # Remove the hospital to be replaced from hos_list
+                hos_list.remove(hos_to_remove)
+                h_list=[] # Create a new hospital record
+                # Create a new hospital record
+                h_list.append(f"{code_h} |{name_h} |{owner_h} |{datetime.datetime.today()}\n")
+                hos_list.append(h_list)
+                print("Hospital replaced successfully")
+        with open("hospital.txt", "w") as file:
+           # Write the updated hospital records to the file
+           for hos_n in hos_list:
+            file.write(" |".join(hos_n)+"\n")
+        if not found:
+         print("Hospital not found")
+   
+#modify_hospitals()
+
+def remove_hospitals():
+    #OPEN the "hospital.txt" file for reading and DISPLAY its current content
+    with open("hospital.txt", "r") as file:
+      for rec in file: 
+        print(rec)
+      file.close()
+    #Initialize a variable to track whether the hospital to remove was found
+    found = False
+    # Create an empty list to store hospital records
+    hos_list = []
+    hos= input("enter the code of the hospital that you want to remove?\n")
+    with open("hospital.txt", "r") as file:
+        for lines in file:
+         line=lines.strip().split(" |")
+         hos_list.append(line)    
+        #Iterate through the hos_list
+        for hospitals in hos_list:
+             hos_to_remove=hospitals[0:]
+             if hos == hospitals[0]:
+                 print(hospitals[0:])
+                 status=input("Are you sure you want to delete this hospital(y/n) ")
+                 if status=="y".lower():
+                    hos_list.remove(hos_to_remove) 
+                    found = True 
+                 elif status=="n".lower():
+                    return
+        if found:
+          # Write the updated hospital records to the file
+          with open("hospital.txt", "w") as file:
+           for hos_n in hos_list:
+            file.write(" |".join(hos_n)+"\n")
+           print("Hospital removed successfully")
+        if not found:
+            print("Hospital not found")
+    
+#remove_hospitals()
+
+def search_hospitals():
+    hos_list = []
+    found = False
+    hos_to_search = input("enter the code of the hospital that you want to search for:\n")
+    with open("hospital.txt", "r") as file:
+        for lines in file:
+           line = lines.strip().split(" ")
+           hos_list.append(line)
+        # Iterate through the hos_list
+        for hospitals in hos_list:
+             if hos_to_search in hospitals[0]:
+                found = True
+                print("Hospital found")
+                print(f"CODE:{hospitals[0]}")
+                print(f"NAME:{hospitals[1]}")
+                print(f"OWNER:{hospitals[2]}")
+# IF the hospital was not found, DISPLAY a message
+        if not found:
+            print("Hospital not found")
+#search_hospitals()
+
+def initial_inventory():
+    inventory = [
+        (" HC| Head_Cover| GF| 100| "),
+        (" FC| Face_shield| RT| 100| "),
+        (" MC| mask      | MJ| 100| "),
+        (" GL| Gloves    | GF| 100| "),
+        (" GW| Gown      | MJ| 100| "),
+        (" SC| Shoe_Cover| HL| 100| "),
+    ]
+    with open("ppe.txt", "w") as file:
+        for item in inventory:
+            file.write(f"{item} {datetime.datetime.today()}\n")
+    with open("ppe.txt", "r") as document:
+        content = document.read()
+        print(content)
+    print("Initial inventory created successfully")
+#initial_inventory()
+
+def adding_Items():
+    while True:
+        item_exists = False
+        item_code = input("kindly insert the code of the item :\n")
+        with open("ppe.txt", "r") as file:
+            for lines in file:
+                line = lines.strip().split("|")
+                if item_code == line[0]:
+                    print("this item already exists!!")
+                    item_exists = True
+                    break
+        if not item_exists:
+            item_name = input("Kindly insert the name of the item you want to add \nremember use(_)for long name:")
+            supplier_code = input("Please enter the supplier code :\n")
+            try:
+                item_quantity = int(input("Please enter the quantity :\n"))
+                with open("ppe.txt", "a") as file:
+                 file.write(f" {item_code}| {item_name}| {supplier_code}| {item_quantity}| {datetime.datetime.today()}\n")
+                print("Items added successfully")
+                state = input("Would you like to add more items(y/n)?")
+                if state.lower() == "n":
+                 file.close()
+                 break
+            except ValueError:
+                print("Quantity must be a valid integer. Please try again.")       
+#adding_Items()
+def updated_items():
+    with open("ppe.txt", "r") as file:
+      for rec in file: 
+        print(rec)
+    u_list=[]
+    while True:
+        found = False
+        updated_code = input("Enter the code of the item that you want to update:\n")
+        date_time = datetime.datetime.today()
+        with open("ppe.txt", "r") as file:
+            for lines in file:
+                line = lines.strip().split("|")
+                u_list.append(line)
+            for item in u_list:
+                  if updated_code == item[0]:
+                    print(item[0:])
+                    found = True
+                    action = input("Kindly select the action that you want(d for distribute/ r for receive):\n")
+                    if action not in ["d", "r"]:
+                        print("Invalid action please enter receive or distribute:\n")
+                        break
+                    try:
+                        Quantity = int(input("enter the quantity please:\n"))
+                        current_quantity = int(item[3].rstrip('|'))
+                        if action == "r":
+                            supplier_code = input("Kindly the supplier code that will recieve the item:\n")
+                            if updated_code == item[0] and supplier_code not in item[2]:
+                                print("Sorry, but two different suppliers can not supply the same item")
+                            else:
+                                item[3] = str(current_quantity + Quantity)
+                                totall_Quantity = str(current_quantity + Quantity)
+                                transaction = f"{updated_code}| {supplier_code}| {action}| {Quantity}| {totall_Quantity}| {date_time} \n"
+                                with open("transaction.txt", "a") as trans_file:
+                                    trans_file.write(transaction)
+                                    print("Transacted Successfully")
+                                    return True
+                        if action == "d":
+                            hospital_code = input("Kindly enter the code of the hospital that you want to distribute the item for:\n")
+                            if Quantity > current_quantity:
+                                print("Insufficient quantity in stock.")
+                                return
+                            item[3] = str(current_quantity - Quantity)
+                            Remianed_quantity = str(current_quantity - Quantity)
+                            transaction = f"{updated_code}| {hospital_code}| {action}| {Quantity}| {Remianed_quantity}| {date_time} \n"
+                            with open("transaction.txt", "a") as trans_file:
+                                trans_file.write(transaction)
+                                print("Transacted Successfully")
+                                return True
+                    except ValueError:
+                            print("Quantity must be a valid integer. Please try again.")
+        if not found:
+            print("item not found")
+        state = input("Would you like to try again(y/n)?")
+        if state.lower() == "n":
+            file.close()
+            break
+#updated_items()
+
+def Track_items():
+    items = []
+    with open("ppe.txt", "r") as file:
+        for lines in file:
+            line = lines.strip().split("|")
+            Item_code = line[0]
+            Item_quantity = line[3]
+            items.append((Item_code, Item_quantity))
+            sorted_items = sorted(items, key=lambda x: x[0])
+        print("Total available quantity of all items sorted by item code (ascending order):")
+        for item_code, total_quantity in sorted_items:
+            print(f"Item Code: {item_code}, Total Quantity: {total_quantity}")
+#Track_items()
+
+def low_stock_items():
+    stock = False
+    low_stock = []
+    with open("ppe.txt", "r") as file:
+        for lines in file:
+            line = lines.strip().split("|")
+            Item_code = line[0]
+            Item_quantity = int(line[3])
+            if Item_quantity < 25:
+                stock = True
+                low_stock.append((Item_code, Item_quantity))
+        for item_code, quantity in low_stock:
+            print("Items with stock quantity less than 25 boxes:")
+            print(f"Item Code: {item_code} Quantity: {quantity}")
+        if not stock:
+            print("There is no items with stock quantity less than 25 boxes")
+#low_stock_items()
+
+def available_quantity():
+    item_to_track = input("Kindly enter the code of the item to track:\n")
+    with open("ppe.txt", "r") as file:
+        for lines in file:
+            line = lines.strip().split("|")
+            if item_to_track == line[0]:
+                print(f"Item Code: {item_to_track}, Available Quantity: {line[3]}")
+#available_quantity()
+
+def Tracking_during_specific_time():
+    Tracked_items = []
+    start_date_str = input("Please enter the starting date for the tracked item:\n")
+    end_date_str = input("Please enter the end date for the tracked item:\n")
+    try:
+        start_date = datetime.datetime.strptime(start_date_str, "%Y-%m-%d %H:%M:%S.%f")
+        end_date = datetime.datetime.strptime(end_date_str, "%Y-%m-%d %H:%M:%S.%f")
+    except ValueError:
+        print("Invalid date format. Please use the format YYYY-MM-DD HH:MM:SS.ssss")
+        return  #
+    with open("transaction.txt", "r") as file:
+        for lines in file:
+            line = lines.split("|")
+            Tracked_items.append(line)
+        for items in Tracked_items:
+            code=items[0].strip()
+            sup=items[1].strip()
+            quantity=items[3].strip()
+            tot_quantity=items[4].strip()
+            action = items[2].strip()
+            received_date = items[-1].strip()
+            try:
+                transaction_date = datetime.datetime.strptime(received_date, "%Y-%m-%d %H:%M:%S.%f")
+            except ValueError:
+              print(f"Skipping line due to invalid date format: {received_date}")
+              continue
+            if action== "r":
+                if start_date <= transaction_date <= end_date:
+                    print(f"Item Code:{code}| Supplier Code:{sup}| quantity:{quantity}| Total Quantity:{tot_quantity}| {transaction_date} ")
+                    
+#Tracking_during_specific_time()
+
+def search_distributed_items():
+    found = False
+    find = False
+    items_to_search = input("Kindly enter the code of the item to show its distribution details:\nClick Enter to view the details of all distributed items:\n")
+    distribution_info = []
+    with open("transaction.txt", "r") as file:
+        for lines in file:
+            line = lines.strip().split("|")
+            action = line[2]
+            hospital_code = line[1]
+            date = line[-1]
+            quantity = int(line[3].strip())
+            if items_to_search in line[0]:
+                find = True
+                if action == " d":
+                    found = True
+                    item_exists = False
+                    for info in distribution_info:
+                        if info[0] == hospital_code:
+                            info[1] += quantity
+                            info[2].append({"quantity": quantity, "date": date})
+                            item_exists = True
+                            break
+                    if not item_exists:
+                        distribution_info.append([hospital_code, quantity, [{"quantity": quantity, "date": date}]])
+        if not found:
+            print("Item not found")
+        elif not find:
+            print("Invalid")
+    for info in distribution_info:
+        hospital_code, total_quantity, distribution_dates = info
+        print(f"Hospital Code: {hospital_code}, Total Quantity Distributed: {total_quantity}")
+        for date_info in distribution_dates:
+            print(f"Date Received: {date_info['date']}, Quantity Distributed: {date_info['quantity']}")
+#search_distributed_items()
+
+def search_received_items():
+    found = False
+    find = False
+    items_to_search = input(
+        "Kindly enter the code of the item to show its reception details:\nClick Enter to view the details of all received items:\n")
+    recipient_info = []
+    with open("transaction.txt", "r") as file:
+        for lines in file:
+            line = lines.strip().split("|")
+            action = line[2]
+            supplier_code = line[1]
+            date = line[-1]
+            quantity = int(line[3].strip())
+            if items_to_search in line[0]:
+                find = True
+                if action == " r":
+                    found = True
+                    item_exists = False
+                    for info in recipient_info:
+                        if info[0] == supplier_code:
+                            info[1] += quantity
+                            info[2].append({"quantity": quantity, "date": date})
+                            item_exists = True
+                            break
+                    if not item_exists:
+                        recipient_info.append([supplier_code, quantity, [{"quantity": quantity, "date": date}]])
+        if not found:
+            print("Item not found")
+        if not find:
+            print("Invalid")
+    for info in recipient_info:
+        supplier_code, total_quantity, recipient_dates = info
+        print(f"Supplier Code: {supplier_code}, Total Quantity Received: {total_quantity}")
+        for date_info in recipient_dates:
+            print(f"Date Received: {date_info['date']}, Quantity Received: {date_info['quantity']}")
+#search_received_items()
+
+def Users_Mangament():
+   while True:
+    print("Users Main Menu:")
+    print("1. Adding Users: ")
+    print("2. Removing Users: ")
+    print("3. Modifying Users: ")
+    print("4. Searching Users")
+    print("5. Return to the main mneu")
+    print("6. End the program")
+    user_Choice = input("Please select 1/2/3: ")
+    if user_Choice == ("1"):
+        adding_user()
+    elif user_Choice == ("2"):
+        removing_users()
+    elif user_Choice == ("3"):
+        Modifying_users()
+    elif user_Choice == ("4"):
+        searching_users()
+    elif user_Choice== ("5"):
+        MainMenu()
+    elif user_Choice == ("6"):
+        break
+    else:
+        print("Invalid choice. Please select a valid option.")
+
+def sub_Users():
+  while True:
+    print("Users Sub Menu:")
+    print("1. Searching Users")
+    print("2. Return to the sub mneu")
+    print("3. End the program")
+    user_Choice = input("Please select 1/2/3: ")
+    if user_Choice == ("1"):
+        searching_users()
+    elif user_Choice== ("2"):
+        sub_menu()
+    elif user_Choice == ("3"):
+        login_menu()
+        break
+    else:
+        print("Invalid choice. Please select a valid option.")
+
+def Supplier_Managament():
+  while True:
+    print("Supplier Main Menu")
+    print("1. Add Supplier: ")
+    print("2. Remove Supplier: ")
+    print("3. Configure Supplier: ")
+    print("4. Search Supplier: ")
+    print("5. Return to the main mneu")
+    print("6. End the Program")
+    userChoice = input("Enter your choice 1/2/3/4: ")
+    if userChoice == ("1"):
+        add_suppliers()
+    elif userChoice == ("2"):
+        remove_suppliers()
+    elif userChoice == ("3"):
+        modify_suppliers()
+    elif userChoice == ("4"):
+        search_suppliers()
+    elif userChoice== ("5"):
+         MainMenu() 
+    elif userChoice == ("6"):
+        break
+    else:
+        print("Invalid choice. Please select a valid option.")
+
+def sub_suppliers():
+  while True:
+    print("Supplier SUB Menu")
+    print("1. Search Supplier: ")
+    print("2. Return to the sub mneu")
+    print("3. End the program")
+    userChoice = input("Enter your choice 1/2/3/4: ")
+    if userChoice == ("1"):
+        search_suppliers()
+    elif userChoice== ("2"):
+        sub_menu()
+    elif userChoice == ("3"):
+        break
+    else:
+        print("Invalid choice. Please select a valid option.")
+
+def Hospital_Mangament():
+   while True:
+    print("Hospital Main Menu")
+    print("1. Add Hospitals: ")
+    print("2. Remove Hospitals: ")
+    print("3. Configure Hospitals: ")
+    print("4. Search Hospitals: ")
+    print("5. Return to the main mneu")
+    print("6. End the program")
+    userChoice = input("Please select 1/2/3: ")
+    if userChoice == ("1"):
+        add_hospitals()
+    elif userChoice == ("2"):
+        remove_hospitals()
+    elif userChoice == ("3"):
+        modify_hospitals()
+    elif userChoice == ("4"):
+        search_hospitals()
+    elif userChoice== ("5"):
+         MainMenu()
+    elif userChoice == ("6"):
+        break
+    else:
+        print("Invalid choice. Please select a valid option.")
+
+def sub_hospital():
+   while True:
+    print("Hospital SUB Menu")
+    print("1. Search Hospitals: ")
+    print("2. Return to the sub mneu")
+    print("3. End the program")
+    userChoice = input("Please select 1/2/3: ")
+    if userChoice == ("1"):
+        search_hospitals()
+    elif userChoice== ("2"):
+        sub_menu()
+    elif userChoice == ("3"):
+        break
+    else:
+     print("Invalid choice. Please select a valid option.")
+
+def Items_Management():
+  while True:
+    print(" Items Main Menu")
+    print(" 1. Items inventory")
+    print(" 2. Adding Items")
+    print(" 3. Updating Items")
+    print(" 4. Track Total available quantity of all Items")
+    print(" 5. Search Distributed Items")
+    print(" 6. Search Received Items")
+    print(" 7. Check for low stock items")
+    print(" 8. Track available quantity for a specific item")
+    print(" 9. Tracking items transactions during specific time")
+    print(" 10. Return to the main mneu")
+    print(" 11. End the program")
+    user_Choice = input("Enter your choice 1/2/3/4/5/6..: ")
+    if user_Choice == ("1"):
+        initial_inventory()
+    elif user_Choice == ("2"):
+        adding_Items()
+    elif user_Choice == ("3"):
+        updated_items()
+    elif user_Choice == ("4"):
+        Track_items()
+    elif user_Choice == ("5"):
+        search_distributed_items()
+    elif user_Choice == ("6"):
+        search_received_items()
+    elif user_Choice == ("7"):
+        low_stock_items()
+    elif user_Choice == ("8"):
+        available_quantity()
+    elif user_Choice == ("9"):
+        Tracking_during_specific_time()
+    elif user_Choice== ("10"):
+         MainMenu()
+    elif user_Choice == ("11"):
+        break
+    else:
+        print("Invalid choice. Please select a valid option.")
+
+def sub_items():
+  while True:
+    print(" Items SUB Menu")
+    print(" 1. Items inventory")
+    print(" 2. Track Total available quantity of all Items")
+    print(" 3. Search Distributed Items")
+    print(" 4. Search Received Items")
+    print(" 5. Track Item Transactions During Specific Time")
+    print(" 6. Track Low Stock Items")
+    print(" 7. Check Items Available Quantity")
+    print(" 8. Return to the sub mneu")
+    print(" 9. End the program")
+    user_Choice = input("Enter your choice 1/2/3/4/5..: ")
+    if user_Choice == ("1"):
+      initial_inventory()
+    elif user_Choice == ("2"):
+       Track_items()
+    elif user_Choice == ("3"):
+       search_distributed_items()
+    elif user_Choice == ("4"):
+       search_received_items()
+    elif user_Choice == ("5"):
+       Tracking_during_specific_time()
+    elif user_Choice == ("6"):
+       low_stock_items()
+    elif user_Choice == ("7"):
+       available_quantity()
+    elif user_Choice== ("8"):
+        sub_menu()
+    elif user_Choice == ("9"):
+        break
+    else:
+        print("Invalid choice. Please select a valid option.")
+
+def MainMenu():
+    while True:
+        print('''---------------------Wellcome to our new company---------------------------------------------\n
+--------------------------Please feel free to do anything-----------------------------''')
+        print("MAIN MENU")
+        print("1. User Management")
+        print("2. Items Management")
+        print("3. Hospitals Management")
+        print("4. Suppliers Management")
+        print("5. Return to Login")
+        print("6. End the program")
+        user_Choice = input("Enter your choice 1/2/3..: ")
+        if user_Choice == ("1"):
+            Users_Mangament()
+            break
+        elif user_Choice == ("2"):
+            Items_Management()
+            break
+        elif user_Choice == ("3"):
+            Hospital_Mangament()
+            break
+        elif user_Choice == ("4"):
+            Supplier_Managament()
+            break
+        elif user_Choice == ("5"):
+            login_menu()
+        elif user_Choice == ("6"):
+            break
+        else:
+            print("Invalid choice. Please select a valid option.")
+# MainMenu()
+
+def sub_menu():
+    while True:
+        print("Sub MENU")
+        print("1. User Management (sub)")
+        print("2. Items Management (sub)")
+        print("3. Hospitals Management (sub)")
+        print("4. Suppliers Management (sub)")
+        print("5. Return to Login")
+        print("6. End the program")
+        user_Choice = input("Enter your choice 1/2/3/4/5: ")
+        if user_Choice == ("1"):
+            sub_Users()
+            break
+        elif user_Choice == ("2"):
+            sub_items()
+            break
+        elif user_Choice == ("3"):
+            sub_hospital()
+            break
+        elif user_Choice == ("4"):
+            sub_suppliers()
+            break
+        elif user_Choice == ("5"):
+            login_menu()
+            break
+        elif user_Choice == ("6"):
+            break
+        else:
+            print("Invalid choice. Please select a valid option.")
+# sub_menu()
+def login_menu(): 
+        initializing_files()
+        found=False
+        with open("user.txt")as file:
+         for users in file:
+            ID = input("Please enter your ID?\n")
+            Password = input("Please enter your password?\n")
+            user=users.strip().split(" |")
+            user_ID=user[2]
+            user_pass=user[3]
+            User_Type=user[1].lower()
+            if ID == user_ID and Password == user_pass and User_Type=="admin": 
+                print("Signed successfully :)")
+                found=True           
+                print('''For adding users click (1): ....
+For going to the main menu click (2): ...''' )
+                user_Choice = input("Enter your choice 1/2..: ")
+                if user_Choice=="2":
+                      MainMenu()
+                      return True
+                elif user_Choice=="1":
+                      adding_user() 
+            if ID == user_ID and Password == user_pass and User_Type=="staff":     
+                   print("Signed successfully :)")
+                   found=True
+                   sub_menu()
+                   return True
+            if not found:
+                    print("No users found")
+          
+login_menu()
